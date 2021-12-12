@@ -28,7 +28,7 @@
                 <div class="col">
                     <nav>
                         <ul class="d-flex nav-items">
-                            <li><a href="#">Shop all</a></li>
+                            <li><a href="page/shop.php">Shop all</a></li>
                             <li><a href="#">Categories</a></li>
                             <li><a href="#">Brands</a></li>
                         </ul>

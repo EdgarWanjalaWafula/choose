@@ -1,6 +1,15 @@
+import storage from './localStorage'
 import {product_arr, categories} from './fetch'
 
+// Global vars
+let cart_count = document.querySelectorAll('.acc-search-cart li span')[0]
+
+// Initialize these 
+
 renderProductsOnShop()
+cartTable()
+showCartCount()
+
 
 function renderProductsOnShop(){ // Render products 
     let products = product_arr, 
@@ -10,7 +19,7 @@ function renderProductsOnShop(){ // Render products
 
     products.forEach(product => {
         html += `<div class='col-md-3'>
-                    <div class="product-item">
+                    <div class="product-item" data-product-id="${product.id}">
                         <div class="product-img position-relative">
                             <img class="img-fluid" src="${product.image}">
                             <button data-id="${product.id}" class="btn btn-sm w-100 rounded-0 btn-success view-product">View</button>
@@ -26,10 +35,12 @@ function renderProductsOnShop(){ // Render products
                 </div>`
     })
 
-    products_container.innerHTML = html
-    product_count[0].innerHTML = Object.keys(products).length + " products"
-    quickView(products) //pass all products to click function 
-    Cart() // run cart function after rendering products
+    if(products_container !== null){
+        products_container.innerHTML = html    
+        product_count[0].innerHTML = Object.keys(products).length + " products"    
+        quickView(products) //pass all products to click function 
+        Cart() // run cart function after rendering products
+    }
 }
 
 function quickView(data){
@@ -45,10 +56,8 @@ function quickView(data){
         let productid = this.dataset.id, 
             c = ""
 
-        d[0].classList.add("quickview-open");
-
-        // retrieve the specific id details
-        data.forEach(data => {
+        d[0].classList.add("quickview-open");       
+        data.map(data => { // retrieve the specific id details
             if(data.id == productid){
                 c = `<div class="row align-items-center">
                         <div class="col-md-6">
@@ -72,14 +81,7 @@ function quickView(data){
 }
 
 function Cart(){
-    const i = document.querySelectorAll("#all-products .cart-icon"), 
-        cart_count = document.querySelectorAll('.acc-search-cart li span')
-
-    // retrieve cart items 
-    const count = JSON.parse(localStorage.getItem('choose-cart'))
-    if(count.length > 1){
-        cart_count[0].textContent = count.length
-    }
+    let i = document.querySelectorAll("#all-products .cart-icon")
 
     if(i.length > 1){
         i.forEach(icon => {
@@ -91,30 +93,64 @@ function Cart(){
                 product_title = parent.querySelectorAll(".product-item h6")[0].innerHTML, 
                 product_price = parent.querySelectorAll(".product-item .price")[0].innerHTML, 
                 product_thumb = parent.querySelectorAll(".product-item img"), 
+                product_id = parent.querySelectorAll(".btn")[0].dataset["id"], 
                 product_count = [], 
                 new_cart_obj = {
+                    product_id:product_id,
                     title:product_title,
                     price:product_price,
                     thumb:product_thumb[0].attributes[1].nodeValue,
                 }, 
                 choose_cart = localStorage.getItem('choose-cart')
-
-                // Save cart items to local storage 
-                if(choose_cart == null){
+                
+                if(choose_cart == null){ // Save cart items to local storage 
                     const cart_items = []
                     cart_items.push(new_cart_obj)
                     localStorage.setItem('choose-cart', JSON.stringify(cart_items))
+                    // showCartCount()
                 } else {
                     const cart_items = JSON.parse(localStorage.getItem('choose-cart'))
                     cart_items.push(new_cart_obj)
-                    // console.log(cart_items)
-                    cart_count[0].textContent = cart_items.length
-                    // console.log(cart_count[0])
+                    cart_count.textContent = cart_items.length
                     localStorage.setItem('choose-cart', JSON.stringify(cart_items))
                 }   
-
-                // console.table(product_thumb[0].attributes[1].nodeValue)
-            //
         }
+    }
+}
+
+function showCartCount(){    // retrieve cart items 
+    let count = storage
+
+    if(count !== null){
+        cart_count.textContent = count.length
+    }
+}
+
+function cartTable(){
+    let cart = document.getElementById("cart"), 
+        cart_row = "", 
+        prices_arr = [], 
+        cart_total_div = document.getElementsByClassName("cart-total")[0],
+        cart_total = ""
+
+    storage.map( (value, index) => {
+        let price = parseFloat(value.cart_product_price.replace( /[^\d\.]*/g, '')); //get price, strip currency (ksh), 
+            
+        cart_row += `<tr>
+                        <td scope="row">${index+1}</td>
+                        <td><img src="${value.cart_product_thumbnail}"></td>
+                        <td><h5>${value.cart_product_title}</h5><span class="small">${value.cart_product_price}</span></td>
+                        <td><input min=0 class="form-control w-50" value="${value.cart_product_quantity}"type="number"></td>
+                        <td>Ksh: ${price * value.cart_product_quantity}</td>
+                        <td><i data-id="${value.cart_product_id}" class="bi bi-x-lg text-danger"></i></td>
+                    </tr>`
+        prices_arr.push(price * value.cart_product_quantity)
+    })
+
+    cart_total = prices_arr.reduce( (a,b) => a + b )
+
+    if(cart !== null){
+        cart.innerHTML = cart_row
+        cart_total_div.innerHTML = cart_total
     }
 }

@@ -8,28 +8,42 @@
             </div>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-10 offset-1">
-                    <table class="table table-striped">
+                <div class="col-md-12">
+                    <table class="table table-striped table-borderless">
                         <thead>
                             <tr>
-                                <th>id</th>
-                                <th>Product thumbnail</th>
-                                <th>product title</th>
-                                <th>Quantity</th>
-                                <th>Action</th>
+                                <th><h5>#</h5></th>
+                                <th><h5>Product thumbnail</h5></th>
+                                <th><h5>Product title</h5></th>
+                                <th><h5>Quantity</h5></th>
+                                <th><h5>Amount</h5></th>
+                                <th><h5>Action</h5></th>
                             </tr>
                         </thead>
                         <tbody id="cart">
-                            <tr>
-                                <td scope="row"></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
                         </tbody>
                     </table>
                     
                 </div>
-                .col
+            </div>
+            <div class="row justify-content-end">
+                <div class="col-md-4">
+                    <h3>Shopping Summary</h3>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td scope="row">Shipping & delivery</td>
+                                <td>Free</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Total</td>
+                                <td><span class="cart-total"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="my-4"></div>
+                    <a href="#" class="btn rounded-0 w-100 checkout">Proceed to checkout</a>
+                </div>
             </div>
         </div>
     </section>
