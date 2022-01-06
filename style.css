@@ -2,7 +2,11 @@
 @import url(https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css);
 /* @import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500&display=swap); */
 @import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500&family=Quicksand:wght@300;400;500;600;700&display=swap);
+@import url(css/cart.css);
 
+:root{
+	--theme-header-height:70px;
+}
 /* GLobals */
 img{
 	width:100%;
@@ -76,11 +80,44 @@ nav ul.nav-items li {
 	visibility: hidden;
 }
 
+/* Home banner  */
+.landing-banner img,
+.landing-banner > div,
+.landing-banner {
+	height: calc(100vh - (var(--theme-header-height)));
+}
+
+.landing-banner{
+	margin-top:var(--theme-header-height);
+}
+
+.landing-banner img{
+	object-fit:cover;
+}
+
+.theme-padding{
+	padding:5rem 0;
+}
+
 /* All products  */
 #all-products img {
 	height: calc(100vh / 3);
 	width: 100%;
 	object-fit: contain;
+}
+
+.home-products-carousel .product-item img {
+	height: calc(100vh / 3);
+	object-fit: contain;
+}
+
+.product-categories {
+	margin: 0 0 3rem;
+}
+
+.product-item {
+	width: calc(100% - 3rem);
+	margin: 0px auto;
 }
 
 /* Quick buy */
@@ -144,7 +181,7 @@ nav ul.nav-items li {
 	display: flex;
 	justify-content: center;
 	align-items: center; */
-	margin: 0 0 4rem;
+	margin: 0 0 2rem;
 	color: #fff;
 }
 
@@ -181,11 +218,15 @@ nav ul.nav-items li {
 
 .product-img button {
 	position: absolute;
-	bottom:12px;
+	top: 50%;
 	left: 0;
-	opacity:0;
-	transition:.5s ease-in-out;
-	visibility:hidden;
+	opacity: 0;
+	transition: .5s ease-in-out;
+	visibility: hidden;
+	transform: translateY(-50%);
+	width: 50% !important;
+	right: 0;
+	margin: 0px auto;
 }
 
 .product-item:hover button{
@@ -193,8 +234,17 @@ nav ul.nav-items li {
 	visibility:visible;
 }
 
-.product-item {
+/* .product-item {
 	margin: 0 0 3rem;
+} */
+
+.owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span {
+	background: #763626 !important;
+	width: 40px !important;
+}
+
+.owl-theme .owl-dots .owl-dot span {
+	transition:.4s ease-in-out !important;
 }
 
 .product-item .price {
@@ -259,4 +309,15 @@ nav ul.nav-items li {
 	display: block;
 	text-align: center;
 	width: 100%;
+}
+
+.table td, .table th {
+	vertical-align: middle;
+}
+
+.product-filter {
+	border: 1px solid #e1e1e1;
+	margin: 0px auto;
+	padding: 1rem .5rem;
+	border-radius: .5rem;
 }

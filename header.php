@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $page_type; ?></title>
+    <title><?php echo ucfirst($page_type); ?></title>
     <link rel="stylesheet" href="<?php echo $path = $page_type == 'Home' ? '': '../'; ?>style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css" integrity="sha512-OTcub78R3msOCtY3Tc6FzeDJ8N9qvQn1Ph49ou13xgA9VsH9+LRxoFU6EqLhW4+PKRfU+/HReXmSZXHEkpYoOA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body class="theme-body">
     <?php 
@@ -19,10 +21,11 @@
 
     ?>
     <div class="overlay"></div>
+    <div class="notifications"></div>
     <header class="site-header w-100">
-        <div class="notice-bar bg-light p-1">
+        <!-- <div class="notice-bar bg-light p-1">
             <span class="small text-center d-block">free shipping on all orders over 5k</span>
-        </div>
+        </div> -->
         <div class="container-fluid">
             <div class="row align-items-center">
                 <div class="col">

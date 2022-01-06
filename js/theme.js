@@ -1,42 +1,26 @@
-import storage from './localStorage'
-import {product_arr, categories} from './fetch'
+import storage from './components/localStorage'
+import {productArr, productCategories} from './components/fetch'
+import productTemplate from './components/singleProduct'
+// import slugify from './components/generateSlug'
 
 // Global vars
 let cart_count = document.querySelectorAll('.acc-search-cart li span')[0]
 
 // Initialize these 
+renderProductsOnShop() // Render products 
+cartTable() // Show roducts on cart page
+showCartCount() // Show cart count
+showCategories() // Show categories
 
-renderProductsOnShop()
-cartTable()
-showCartCount()
-
-
-function renderProductsOnShop(){ // Render products 
-    let products = product_arr, 
+function renderProductsOnShop(){ 
+    let products = productArr, 
         html = "", 
         products_container = document.getElementById('all-products'), 
         product_count = document.getElementsByClassName("product-count")
 
-    products.forEach(product => {
-        html += `<div class='col-md-3'>
-                    <div class="product-item" data-product-id="${product.id}">
-                        <div class="product-img position-relative">
-                            <img class="img-fluid" src="${product.image}">
-                            <button data-id="${product.id}" class="btn btn-sm w-100 rounded-0 btn-success view-product">View</button>
-                        </div>
-                        <div class="product-body">
-                            <h6>${product.title}</h6>
-                            <div class="d-flex justify-content-between">
-                                <span data-id="${product.id}" class="price">Ksh: ${product.price}</span>
-                                <i class="bi bi-bag cart-icon"></i>
-                            </div>
-                        </div>                      
-                    </div>
-                </div>`
-    })
+    productTemplate(products, products_container, 'col-md-3' )
 
     if(products_container !== null){
-        products_container.innerHTML = html    
         product_count[0].innerHTML = Object.keys(products).length + " products"    
         quickView(products) //pass all products to click function 
         Cart() // run cart function after rendering products
@@ -118,12 +102,9 @@ function Cart(){
     }
 }
 
-function showCartCount(){    // retrieve cart items 
+function showCartCount(){ // retrieve cart items 
     let count = storage
-
-    if(count !== null){
-        cart_count.textContent = count.length
-    }
+    if(count !== null) cart_count.textContent = count.length
 }
 
 function cartTable(){
@@ -139,18 +120,53 @@ function cartTable(){
         cart_row += `<tr>
                         <td scope="row">${index+1}</td>
                         <td><img src="${value.cart_product_thumbnail}"></td>
-                        <td><h5>${value.cart_product_title}</h5><span class="small">${value.cart_product_price}</span></td>
-                        <td><input min=0 class="form-control w-50" value="${value.cart_product_quantity}"type="number"></td>
-                        <td>Ksh: ${price * value.cart_product_quantity}</td>
-                        <td><i data-id="${value.cart_product_id}" class="bi bi-x-lg text-danger"></i></td>
+                        <td><h5>${value.cart_product_title}</h5><span class="small text-danger d-block">Remove</span></td>
+                        <td><span class='cart-product-price'>${(value.cart_product_price).toLocaleString("en",{minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></td>
+                        <td><input min=0 class="form-control text-center" value="${value.cart_product_quantity}"type="number"></td>
+                        <td><span class='cart-product-total'>Ksh: ${(price * value.cart_product_quantity).toLocaleString("en",{minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></td>
                     </tr>`
         prices_arr.push(price * value.cart_product_quantity)
     })
 
     cart_total = prices_arr.reduce( (a,b) => a + b )
-
     if(cart !== null){
         cart.innerHTML = cart_row
-        cart_total_div.innerHTML = cart_total
+        cart_total_div.innerHTML = cart_total.toLocaleString("en",{minimumFractionDigits: 2, maximumFractionDigits: 2})
     }
+}
+
+function showCategories(){
+    let categories = productCategories, 
+        div = document.getElementsByClassName("product-categories")[0], 
+        target = document.getElementsByClassName("home-products-carousel")[0], 
+        html = ""
+
+        console.log(div)
+
+        if(div !== undefined){
+            categories.map( category => {
+                html += `<li class="product-category" data-category-slug="${category.slug}">
+                    ${category.category}
+                </li>`
+            })  
+        
+            
+            div.innerHTML = html
+        }
+
+    // let categoryLi = document.querySelectorAll(".product-categories li")
+
+    // categoryLi.forEach( li => {
+    //     console.log(li)
+
+    //     li.addEventListener('click', filterCategories, false)
+    // })
+
+    // console.log(productArr)
+
+    // function filterCategories(){
+    //     let cat = this.dataset['categorySlug'],
+    //         filteredArray = productArr.filter( value => slugify(value.category) == cat)
+    //     console.log(filteredArray)
+    // }
 }

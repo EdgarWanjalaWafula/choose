@@ -15,9 +15,10 @@
                                 <th><h5>#</h5></th>
                                 <th><h5>Product thumbnail</h5></th>
                                 <th><h5>Product title</h5></th>
+                                <th><h5>Price</h5></th>
                                 <th><h5>Quantity</h5></th>
                                 <th><h5>Amount</h5></th>
-                                <th><h5>Action</h5></th>
+                                <!-- <th><h5>Action</h5></th> -->
                             </tr>
                         </thead>
                         <tbody id="cart">
@@ -32,7 +33,7 @@
                     <table class="table table-bordered">
                         <tbody>
                             <tr>
-                                <td scope="row">Shipping & delivery</td>
+                                <td scope="row">Shipping & delivery <span class="small d-block">Taxes and shipping calculated at checkout </span></td>
                                 <td>Free</td>
                             </tr>
                             <tr>
